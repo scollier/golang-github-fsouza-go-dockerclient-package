@@ -6,7 +6,7 @@
 
 Name:           golang-github-fsouza-go-dockerclient
 Version:        0
-Release:        0.1.git%{shortcommit}%{?dist}
+Release:        0.2.git%{shortcommit}%{?dist}
 Summary:        Client for the Docker remote API
 License:        BSD
 URL:            https://%{import_path}
@@ -59,5 +59,8 @@ done
 %{gopath}/src/%{import_path}/utils/*.go
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.2.gitd639515
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Thu Apr 03 2014 Lokesh Mandvekar <lsm5@redhat.com> 0-0.1.git
 - Initial package
