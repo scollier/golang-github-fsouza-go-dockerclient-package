@@ -1,16 +1,16 @@
 %global debug_package   %{nil}
 %global import_path     github.com/fsouza/go-dockerclient
 %global gopath          %{_datadir}/gocode
-%global commit          d639515f70e535d4bbff8499992beeb48d8bf340
+%global commit          a735a3dbbfdd1822886f6b4235318c8809b41538
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
 
 Name:           golang-github-fsouza-go-dockerclient
 Version:        0
-Release:        0.2.git%{shortcommit}%{?dist}
+Release:        0.3.git%{shortcommit}%{?dist}
 Summary:        Client for the Docker remote API
 License:        BSD
 URL:            https://%{import_path}
-Source0:        https://%{import_path}/archive/%{commit}/go-dockerclient-%{shortcommit}.tar.gz
+Source0:        https://%{import_path}/archive/%{commit}/%{name}-%{commit}.tar.gz
 %if 0%{?fedora} >= 19 
 BuildArch:      noarch
 %else
@@ -35,7 +35,7 @@ This package contains library source intended for building other packages
 which use fsouza/go-dockerclient.
 
 %prep
-%setup -n go-dockerclient-%{commit}
+%setup -n %{name}-%{commit}
 
 %build
 
@@ -59,6 +59,9 @@ done
 %{gopath}/src/%{import_path}/utils/*.go
 
 %changelog
+* Tue Jul 22 2014 Colin Walters <walters@redhat.com>
+- Update to newer version for Kubernetes work
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.2.gitd639515
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
