@@ -1,32 +1,33 @@
-%global debug_package   %{nil}
-%global import_path     github.com/fsouza/go-dockerclient
-%global gopath          %{_datadir}/gocode
-%global commit          a735a3dbbfdd1822886f6b4235318c8809b41538
-%global shortcommit     %(c=%{commit}; echo ${c:0:7})
+%global debug_package	%{nil}
+%global goname		go-dockerclient
+%global import_path	github.com/fsouza/%{goname}
+%global gopath		%{_datadir}/gocode
+%global commit		1f11e8a150726e38edba83abe7bf3ea4d81ca737
+%global shortcommit	%(c=%{commit}; echo ${c:0:8})
 
-Name:           golang-github-fsouza-go-dockerclient
-Version:        0
-Release:        0.3.git%{shortcommit}%{?dist}
-Summary:        Client for the Docker remote API
-License:        BSD
-URL:            https://%{import_path}
-Source0:        https://%{import_path}/archive/%{commit}/%{name}-%{commit}.tar.gz
+Name:		golang-github-fsouza-%{goname}
+Version:	0
+Release:	0.4.git%{shortcommit}%{?dist}
+Summary:	Client for the Docker remote API
+License:	BSD
+URL:		https://%{import_path}
+Source0:	https://%{import_path}/archive/%{commit}/%{goname}-%{shortcommit}.tar.gz
 %if 0%{?fedora} >= 19 
-BuildArch:      noarch
+BuildArch:	noarch
 %else
-ExclusiveArch:  %{ix86} x86_64 %{arm}
+ExclusiveArch:	%{ix86} x86_64 %{arm}
 %endif
 
 %description
 %{summary}
 
 %package devel
-Requires:       golang
-Summary:        Client for the Docker remote API
-Provides:       golang(%{import_path}) = %{version}-%{release}
-Provides:       golang(%{import_path}/engine) = %{version}-%{release}
-Provides:       golang(%{import_path}/testing) = %{version}-%{release}
-Provides:       golang(%{import_path}/utils) = %{version}-%{release}
+Requires:	golang
+Summary:	Client for the Docker remote API
+Provides:	golang(%{import_path}) = %{version}-%{release}
+Provides:	golang(%{import_path}/engine) = %{version}-%{release}
+Provides:	golang(%{import_path}/testing) = %{version}-%{release}
+Provides:	golang(%{import_path}/utils) = %{version}-%{release}
 
 %description devel
 %{summary}
@@ -35,15 +36,15 @@ This package contains library source intended for building other packages
 which use fsouza/go-dockerclient.
 
 %prep
-%setup -n %{name}-%{commit}
+%setup -n %{goname}-%{commit}
 
 %build
 
 %install
-install -d -p %{buildroot}/%{gopath}/src/%{import_path}/{engine,testing,utils}
-for d in . engine testing utils; do
-    cp -av $d/*.go %{buildroot}/%{gopath}/src/%{import_path}/$d
-done
+install -d -p %{buildroot}/%{gopath}/src/%{import_path}/
+install -t %{buildroot}/%{gopath}/src/%{import_path} *.go
+install -d -p %{buildroot}/%{gopath}/src/%{import_path}/testing
+install -t %{buildroot}/%{gopath}/src/%{import_path}/testing testing/*.go
 
 %files devel
 %defattr(-,root,root,-)
@@ -54,11 +55,12 @@ done
 %dir %attr(755,root,root) %{gopath}/src/github.com/fsouza
 %dir %attr(755,root,root) %{gopath}/src/github.com/fsouza/go-dockerclient
 %{gopath}/src/%{import_path}/*.go
-%{gopath}/src/%{import_path}/engine/*.go
 %{gopath}/src/%{import_path}/testing/*.go
-%{gopath}/src/%{import_path}/utils/*.go
 
 %changelog
+* Fri Aug 8 2014 Eric Paris <eparis@redhat.com>
+- Update to newer version for Kubernetes (Paused support)
+
 * Tue Jul 22 2014 Colin Walters <walters@redhat.com>
 - Update to newer version for Kubernetes work
 
